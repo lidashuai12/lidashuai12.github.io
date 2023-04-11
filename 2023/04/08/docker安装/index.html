@@ -8,10 +8,10 @@
         <meta name="description" content="" />
         <meta name="keywords" content="" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
-        <link rel="icon" href="./images/avatar.jpg" />
+        <link rel="icon" href="/myblog/images/avatar.jpg" />
         <script src="https://cdn.staticfile.org/vue/3.2.47/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.3.0/css/all.min.css" />
-<link rel="stylesheet" href="./css/fonts.min.css" />
+<link rel="stylesheet" href="/myblog/css/fonts.min.css" />
 <script> const mixins = {}; </script>
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
@@ -22,21 +22,21 @@
     rel="stylesheet"
     href="https://cdn.staticfile.org/highlight.js/11.7.0/styles/idea.min.css"
 />
-<script src="./js/lib/highlight.js"></script>
+<script src="/myblog/js/lib/highlight.js"></script>
 
 
 
-<script src="./js/lib/preview.js"></script>
-
-
-
-
+<script src="/myblog/js/lib/preview.js"></script>
 
 
 
 
 
-<link rel="stylesheet" href="./css/main.css" />
+
+
+
+
+<link rel="stylesheet" href="/myblog/css/main.css" />
 
         <canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas>
         <script src="https://cdn.staticfile.org/animejs/3.2.1/anime.min.js"></script>
@@ -54,37 +54,37 @@
                 <div id="loading-circle">
                     <h2>LOADING</h2>
                     <p>加载过慢请开启缓存 浏览器默认开启</p>
-                    <img src="./images/loading.gif" />
+                    <img src="/myblog/images/loading.gif" />
                 </div>
             </div>
             </transition>
             <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
     <div class="desktop-menu">
-        <a class="title" href="./">
+        <a class="title" href="/myblog/">
             <span>NAWWAN</span>
         </a>
         
-        <a href="./">
+        <a href="/myblog/">
             <i class="fa-solid fa-house fa-fw"></i>
             <span>&ensp;Home</span>
         </a>
         
-        <a href="./about">
+        <a href="/myblog/about">
             <i class="fa-solid fa-id-card fa-fw"></i>
             <span>&ensp;About</span>
         </a>
         
-        <a href="./archives">
+        <a href="/myblog/archives">
             <i class="fa-solid fa-box-archive fa-fw"></i>
             <span>&ensp;Archives</span>
         </a>
         
-        <a href="./categories">
+        <a href="/myblog/categories">
             <i class="fa-solid fa-bookmark fa-fw"></i>
             <span>&ensp;Categories</span>
         </a>
         
-        <a href="./tags">
+        <a href="/myblog/tags">
             <i class="fa-solid fa-tags fa-fw"></i>
             <span>&ensp;Tags</span>
         </a>
@@ -99,7 +99,7 @@
         <transition name="slide">
         <div class="items" v-show="shouMenuItems">
             
-            <a href="./">
+            <a href="/myblog/">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-house fa-fw"></i>
@@ -108,7 +108,7 @@
                 </div>
             </a>
             
-            <a href="./about">
+            <a href="/myblog/about">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-id-card fa-fw"></i>
@@ -117,7 +117,7 @@
                 </div>
             </a>
             
-            <a href="./archives">
+            <a href="/myblog/archives">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-box-archive fa-fw"></i>
@@ -126,7 +126,7 @@
                 </div>
             </a>
             
-            <a href="./categories">
+            <a href="/myblog/categories">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-bookmark fa-fw"></i>
@@ -135,7 +135,7 @@
                 </div>
             </a>
             
-            <a href="./tags">
+            <a href="/myblog/tags">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-tags fa-fw"></i>
@@ -164,7 +164,7 @@
         </span>
         
         <span class="category">
-            <a href="./categories/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+            <a href="/myblog/categories/%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -180,7 +180,7 @@
             
             <span class="tag">
                 
-                <a href="./tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="color: #00a596">环境配置</a>
+                <a href="/myblog/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="color: #03a9f4">环境配置</a>
             </span>
             
         </span>
@@ -218,14 +218,14 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br></pre></td></tr></table></figure>
 
 <p>如图：</p>
-<p><img src="./2023/04/08/docker%E5%AE%89%E8%A3%85/image-20210418154704436.png"></p>
+<p><img src="/myblog/2023/04/08/docker%E5%AE%89%E8%A3%85/image-20210418154704436.png"></p>
 <h2 id="1-4-配置镜像加速"><a href="#1-4-配置镜像加速" class="headerlink" title="1.4.配置镜像加速"></a>1.4.配置镜像加速</h2><p>docker官方镜像仓库网速较差，我们需要设置国内镜像服务：</p>
 <p>参考阿里云的镜像加速文档：<a target="_blank" rel="noopener" href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors">https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors</a></p>
 <h1 id="2-CentOS7安装DockerCompose"><a href="#2-CentOS7安装DockerCompose" class="headerlink" title="2.CentOS7安装DockerCompose"></a>2.CentOS7安装DockerCompose</h1><h2 id="2-1-下载"><a href="#2-1-下载" class="headerlink" title="2.1.下载"></a>2.1.下载</h2><p>Linux下需要通过命令下载：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 安装</span><br><span class="line">curl -L https://github.com/docker/compose/releases/download/1.23.1/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
 
 <p>如果下载速度较慢，或者下载失败，可以使用课前资料提供的docker-compose文件：</p>
-<p><img src="./2023/04/08/docker%E5%AE%89%E8%A3%85/image-20210417133020614.png"></p>
+<p><img src="/myblog/2023/04/08/docker%E5%AE%89%E8%A3%85/image-20210417133020614.png"></p>
 <p>上传到<code>/usr/local/bin/</code>目录也可以。</p>
 <h2 id="2-2-修改文件权限"><a href="#2-2-修改文件权限" class="headerlink" title="2.2.修改文件权限"></a>2.2.修改文件权限</h2><p>修改文件权限：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 修改权限</span><br><span class="line">chmod +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
@@ -287,7 +287,7 @@
             </transition>
             
         </div>
-        <script src="./js/main.js"></script>
+        <script src="/myblog/js/main.js"></script>
         
         
 
