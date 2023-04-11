@@ -8,10 +8,10 @@
         <meta name="description" content="" />
         <meta name="keywords" content="" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
-        <link rel="icon" href="/myblog/images/avatar.jpg" />
+        <link rel="icon" href="./images/avatar.jpg" />
         <script src="https://cdn.staticfile.org/vue/3.2.47/vue.global.prod.min.js"></script>
 <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.3.0/css/all.min.css" />
-<link rel="stylesheet" href="/myblog/css/fonts.min.css" />
+<link rel="stylesheet" href="./css/fonts.min.css" />
 <script> const mixins = {}; </script>
 
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
@@ -22,21 +22,21 @@
     rel="stylesheet"
     href="https://cdn.staticfile.org/highlight.js/11.7.0/styles/idea.min.css"
 />
-<script src="/myblog/js/lib/highlight.js"></script>
+<script src="./js/lib/highlight.js"></script>
 
 
 
-<script src="/myblog/js/lib/preview.js"></script>
-
-
-
-
+<script src="./js/lib/preview.js"></script>
 
 
 
 
 
-<link rel="stylesheet" href="/myblog/css/main.css" />
+
+
+
+
+<link rel="stylesheet" href="./css/main.css" />
 
         <canvas id="fireworks" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 32767"></canvas>
         <script src="https://cdn.staticfile.org/animejs/3.2.1/anime.min.js"></script>
@@ -54,37 +54,37 @@
                 <div id="loading-circle">
                     <h2>LOADING</h2>
                     <p>加载过慢请开启缓存 浏览器默认开启</p>
-                    <img src="/myblog/images/loading.gif" />
+                    <img src="./images/loading.gif" />
                 </div>
             </div>
             </transition>
             <nav id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
     <div class="desktop-menu">
-        <a class="title" href="/myblog/">
+        <a class="title" href="./">
             <span>NAWWAN</span>
         </a>
         
-        <a href="/myblog/">
+        <a href="./">
             <i class="fa-solid fa-house fa-fw"></i>
             <span>&ensp;Home</span>
         </a>
         
-        <a href="/myblog/about">
+        <a href="./about">
             <i class="fa-solid fa-id-card fa-fw"></i>
             <span>&ensp;About</span>
         </a>
         
-        <a href="/myblog/archives">
+        <a href="./archives">
             <i class="fa-solid fa-box-archive fa-fw"></i>
             <span>&ensp;Archives</span>
         </a>
         
-        <a href="/myblog/categories">
+        <a href="./categories">
             <i class="fa-solid fa-bookmark fa-fw"></i>
             <span>&ensp;Categories</span>
         </a>
         
-        <a href="/myblog/tags">
+        <a href="./tags">
             <i class="fa-solid fa-tags fa-fw"></i>
             <span>&ensp;Tags</span>
         </a>
@@ -99,7 +99,7 @@
         <transition name="slide">
         <div class="items" v-show="shouMenuItems">
             
-            <a href="/myblog/">
+            <a href="./">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-house fa-fw"></i>
@@ -108,7 +108,7 @@
                 </div>
             </a>
             
-            <a href="/myblog/about">
+            <a href="./about">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-id-card fa-fw"></i>
@@ -117,7 +117,7 @@
                 </div>
             </a>
             
-            <a href="/myblog/archives">
+            <a href="./archives">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-box-archive fa-fw"></i>
@@ -126,7 +126,7 @@
                 </div>
             </a>
             
-            <a href="/myblog/categories">
+            <a href="./categories">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-bookmark fa-fw"></i>
@@ -135,7 +135,7 @@
                 </div>
             </a>
             
-            <a href="/myblog/tags">
+            <a href="./tags">
                 <div class="item">
                     <div style="min-width: 20px; max-width: 50px; width: 10%">
                         <i class="fa-solid fa-tags fa-fw"></i>
@@ -164,7 +164,7 @@
         </span>
         
         <span class="category">
-            <a href="/myblog/categories/%E6%97%A5%E5%B8%B8/">
+            <a href="./categories/%E6%97%A5%E5%B8%B8/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
@@ -180,7 +180,7 @@
             
             <span class="tag">
                 
-                <a href="/myblog/tags/%E6%97%A5%E5%B8%B8/" style="color: #03a9f4">日常</a>
+                <a href="./tags/%E6%97%A5%E5%B8%B8/" style="color: #ff7d73">日常</a>
             </span>
             
         </span>
@@ -189,7 +189,7 @@
     
     <div class="content" v-pre>
         <h1 id="博客刚搭建好，纪念一下"><a href="#博客刚搭建好，纪念一下" class="headerlink" title="博客刚搭建好，纪念一下"></a>博客刚搭建好，纪念一下</h1><p>记录我的心声，和我的日常</p>
-<p>我爱你宝贝<img src="/myblog/2023/04/07/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/darling.jpg"></p>
+<p>我爱你宝贝<img src="./2023/04/07/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/darling.jpg"></p>
 
     </div>
     
@@ -229,7 +229,7 @@
             </transition>
             
         </div>
-        <script src="/myblog/js/main.js"></script>
+        <script src="./js/main.js"></script>
         
         
 
