@@ -651,6 +651,10 @@ body::-webkit-scrollbar-track {
     background: #e6efff;
     border-radius: 100px;
 }
+::-moz-selection {
+    background-color: #3392ff2a;
+    color: unset;
+}
 ::selection {
     background-color: #3392ff2a;
     color: unset;
@@ -697,7 +701,9 @@ iframe,
 .icon-link a,
 .language,
 .copycode {
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
 }
 code {
     background: #bddcf76b;

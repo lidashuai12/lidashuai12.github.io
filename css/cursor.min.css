@@ -5,9 +5,7 @@
   border-radius: 8px;
   background: #000;
   opacity: 0;
-  transition: opacity 0.2s, -webkit-transform 0.2s;
   transition: opacity 0.2s, transform 0.2s;
-  transition: opacity 0.2s, transform 0.2s, -webkit-transform 0.2s;
   z-index: 32767;
   pointer-events: none;
 }
@@ -16,11 +14,9 @@
 }
 #cursor.hover {
   opacity: 0.1;
-  -webkit-transform: scale(2.5);
   transform: scale(2.5);
 }
 #cursor.active {
   opacity: 0.5;
-  -webkit-transform: scale(0.5);
   transform: scale(0.5);
 }
