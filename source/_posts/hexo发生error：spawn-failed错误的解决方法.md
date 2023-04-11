@@ -3,6 +3,8 @@ title: hexo发生error：spawn failed错误的解决方法
 date: 2023-04-11 20:59:46
 categories: 踩坑
 tags: hexo
+description: |
+    **Spawn failed...**
 ---
 
 # 问题描述：
