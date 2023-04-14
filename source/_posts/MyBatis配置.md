@@ -133,7 +133,9 @@ public interface AccountMapper {
 
 ​			要使Maven编译后在同一目录下，就要在resources目录下创建com/cqupt/Demo/mapper文件夹,结构与AccountMapper路径相同。
 
-​			注：创建文件夹时，不能以“.”隔开包名，而要以“/”来隔开
+​			注1：创建文件夹时，不能以“.”隔开包名，而要以“/”来隔开
+
+​			注2： 如果在核心配置文件中采用单独声明，那么Mapper和xml不放在同一个包下也可以
 
 ​		（3）要在mybatis-config.xml核心配置文件中，声明Mapper.xml文件的位置
 
