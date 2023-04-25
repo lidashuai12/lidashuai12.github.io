@@ -8,7 +8,7 @@ subtitle: ""
 description: ""
 keywords:
 author: nawwan
-language: en
+language: zh-CN
 timezone: ""
 
 # URL
@@ -46,7 +46,7 @@ relative_link: false
 future: true
 highlight:
   enable: true
-  line_number: true
+  line_number: false
   auto_detect: false
   tab_replace: ""
   wrap: true
@@ -98,7 +98,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: particlex
+theme: butterfly
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -116,3 +116,7 @@ marked:
 autoprefixer:
   exclude:
     - "*.min.css"
+# 音乐播放器
+aplayer:
+  meting: true
+  asset_inject: false
