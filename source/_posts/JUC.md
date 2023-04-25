@@ -139,7 +139,7 @@ Thread 构造器：
 
 #### Runnable
 
-把【线程】和【任务】（要执行的代码）分开
+把【线程】和【任务】（要执行的代码）分开，`new Runnable`相当于创建任务对象，Thread去执行。
 
 Runnable 创建线程方式：创建线程类，匿名内部类方式
 
@@ -184,7 +184,7 @@ public class MyRunnable implements Runnable{
 }
 ```
 
-**Thread 类本身也是实现了 Runnable 接口**，Thread 类中持有 Runnable 的属性，执行线程 run 方法底层是调用 Runnable#run：
+**使用Thread类和Runnable接口创建线程方式的区别**：**Thread 类本身也是实现了 Runnable 接口**，如果Thread类中不持有Runnable属性，那么调用的是Thread类自己的run方法(被重写)。<span style="color:red">如果Thread 类中持有 Runnable 的属性，那么执行线程 run 方法底层是调用 Runnable的run()方法（被重写）</span>：
 
 ```java
 public class Thread implements Runnable {
@@ -203,10 +203,10 @@ Runnable 方式的优缺点：
 
 - 缺点：代码复杂一点。
 - 优点：
-  1. 线程任务类只是实现了 Runnable 接口，可以继续继承其他类，避免了单继承的局限性
+  1. **线程任务类只是实现了 Runnable 接口，可以继续继承其他类，避免了单继承的局限性**
   2. 同一个线程任务对象可以被包装成多个线程对象
   3. 适合多个多个线程去共享同一个资源
-  4. 实现解耦操作，线程任务代码可以被多个线程共享，线程任务代码和线程独立
+  4. **实现解耦操作，线程任务代码可以被多个线程共享，线程任务代码和线程独立**
   5. 线程池可以放入实现 Runnable 或 Callable 线程任务对象
 
 #### Callable
@@ -214,7 +214,7 @@ Runnable 方式的优缺点：
 实现 Callable 接口：
 
 1. 定义一个线程任务类实现 Callable 接口，申明线程执行的结果类型
-2. 重写线程任务类的 call 方法，这个方法可以直接返回执行的结果
+2. 重写线程任务类的 call 方法，这个方法可以直接返回执行的结果（Thread和Runnable类的run方法都是没有返回结果的）
 3. 创建一个 Callable 的线程任务对象
 4. 把 Callable 的线程任务对象**包装成一个未来任务对象**
 5. 把未来任务对象包装成线程对象
@@ -222,7 +222,7 @@ Runnable 方式的优缺点：
 
 `public FutureTask(Callable<V> callable)`：未来任务对象，在线程执行完后得到线程的执行结果
 
-- FutureTask 就是 Runnable 对象，因为 **Thread 类只能执行 Runnable 实例的任务对象**，所以把 Callable 包装成未来任务对象
+- FutureTask 就是 Runnable 对象（这个接口继承了Runnable接口），因为 **Thread 类只能执行 Runnable 实例的任务对象**，所以把 Callable 包装成未来任务对象
 - 线程池部分详解了 FutureTask 的源码
 
 `public V get()`：同步等待 task 执行完毕的结果，如果在线程中获取另一个线程执行结果，会阻塞等待，用于线程同步
@@ -266,6 +266,31 @@ public class MyCallable implements Callable<String> {
 
 - 每个栈由多个栈帧（Frame）组成，对应着每次方法调用时所占用的内存
 - 每个线程只能有一个活动栈帧，对应着当前正在执行的那个方法
+
+![image-20230425173538488](image-20230425173538488.png)
+
+```java
+public static void main(String[] args) {
+        method1(10);
+    }
+
+    private static void method1(int x) {
+        int y = x + 1;
+        Object m = method2();
+        System.out.println(m);
+    }
+
+    private static Object method2() {
+        Object n = new Object();
+        return n;
+    }
+```
+
+图解：
+
+![image-20230425174204410](image-20230425174204410.png)
+
+
 
 **线程上下文切换（Thread Context Switch）**：一些原因导致 CPU 不再执行当前线程，转而执行另一个线程
 
@@ -402,11 +427,11 @@ Thread 类 API：
 | public void setName(String name)            | 给当前线程取名字                                             |
 | public void getName()                       | 获取当前线程的名字 线程存在默认名称：子线程是 Thread-索引，主线程是 main |
 | public static Thread currentThread()        | 获取当前线程对象，代码在哪个线程中执行                       |
-| public static void sleep(long time)         | 让当前线程休眠多少毫秒再继续执行 **Thread.sleep(0)** : 让操作系统立刻重新进行一次 CPU 竞争 |
-| public static native void yield()           | 提示线程调度器让出当前线程对 CPU 的使用                      |
+| public static void sleep(long time)         | 让当前线程休眠多少毫秒再继续执行 ；**Thread.sleep(0)** : 让操作系统立刻重新进行一次 CPU 竞争 |
+| public static native void yield()           | 提示线程调度器让出当前线程对 CPU 的使用（主要是为了测试和调试） |
 | public final int getPriority()              | 返回此线程的优先级                                           |
-| public final void setPriority(int priority) | 更改此线程的优先级，常用 1 5 10                              |
-| public void interrupt()                     | 中断这个线程，异常处理机制                                   |
+| public final void setPriority(int priority) | 更改此线程的优先级（1~10），常用 1 5 10                      |
+| public void interrupt()                     | 中断这个线程，异常处理机制。如果被打断的线程正在sleep,wait,join会导致被打断的线程抛出InterruptedExecption,并清除打断标记；如果打断的是正在运行的线程，则会设置打断标记；park的线程被打断，也会设置打断标记 |
 | public static boolean interrupted()         | 判断当前线程是否被打断，清除打断标记                         |
 | public boolean isInterrupted()              | 判断当前线程是否被打断，不清除打断标记                       |
 | public final void join()                    | 等待这个线程结束                                             |
@@ -435,21 +460,74 @@ run() 方法中的异常不能抛出，只能 try/catch
 
 sleep：
 
-- 调用 sleep 会让当前线程从 `Running` 进入 `Timed Waiting` 状态（阻塞）
+- 调用 sleep 会<span style="color:red">**让当前线程从 `Running` 进入 `Timed Waiting` 状态（阻塞）**</span>
 - sleep() 方法的过程中，**线程不会释放对象锁**
-- 其它线程可以使用 interrupt 方法打断正在睡眠的线程，这时 sleep 方法会抛出 InterruptedException
+- 其它线程可以使用 interrupt 方法打断正在睡眠的线程，这时 sleep 方法会抛出 InterruptedException（**此时try-catch内的代码不会在运行，但是try-catch后的代码还是会运行后抛出异常**）
 - 睡眠结束后的线程未必会立刻得到执行，需要抢占 CPU
-- 建议用 TimeUnit 的 sleep 代替 Thread 的 sleep 来获得更好的可读性
+- 建议用 TimeUnit 的 sleep 代替 Thread 的 sleep 来获得更好的可读性（可以通过枚举类型限制时间单位）
 
 yield：
 
-- 调用 yield 会让提示线程调度器让出当前线程对 CPU 的使用
+- 调用 yield 会让提示线程调度器让出当前线程对 CPU 的使用，<span style="color:red">**让当前线程从`Running`进入`Runnable`就绪态**</span>
 - 具体的实现依赖于操作系统的任务调度器
 - **会放弃 CPU 资源，锁资源不会释放**
+
+**区别**：CPU会把时间片分配给就绪态的线程，但不会考虑阻塞态的线程，阻塞态的线程需要被唤醒后才能被CPU划分时间片
+
+
+
+------------------------------------
+
+##### 线程优先级
+
+- 线程优先级会提示（hint）调度器优先调度该线程，但它仅仅是一个提示，调度器可以忽略它
+- 如果CPU比较繁忙，那么优先级高的线程会获得更多的时间片，但cpu闲时，优先级几乎没作用
 
 ------
 
 #### join
+
+思考下面代码的运行结果：
+
+```java
+@Slf4j(topic = "c.Test10")
+public class Test10 {
+    static int r = 0;
+    public static void main(String[] args) throws InterruptedException {
+        test1();
+    }
+    private static void test1() throws InterruptedException {
+        log.debug("开始");
+        Thread t1 = new Thread(() -> {
+            log.debug("开始");
+            sleep(1);
+            log.debug("结束");
+            r = 10;
+        },"t1");
+        t1.start();
+        //t1.join();
+        log.debug("结果为:{}", r);
+        log.debug("结束");
+    }
+}
+```
+
+实际运行结果为：
+
+```
+18:53:46.907 c.Test10 [main] - 开始
+18:53:46.938 c.Test10 [t1] - 开始
+18:53:46.938 c.Test10 [main] - 结果为:0
+18:53:46.939 c.Test10 [main] - 结束
+18:53:47.952 c.Test10 [t1] - 结束
+```
+
+分析：这是因为主线程与t1几乎在同时运行，主线程并不需要等待t1的执行结果就可以直接输出r的值（从打印时间就可以看出）。
+
+解决方法：
+
+- 用sleep行不行？为什么？肯定是不合适的，因为主线程不确定t1要睡眠多久，时间设置久了浪费，短了同样接收不到结果
+- 用join，加在`t1.start()`之后即可<span style="color:red">（在线程a中调用线程b的`join()`方法 ，此时线程a就会进入阻塞状态，直到线程b完全执行完以后，线程a才会结束阻塞状态）</span>
 
 public final void join()：等待这个线程结束
 
@@ -532,6 +610,8 @@ public class Test {
 
 - 打断正常运行的线程：不会清空打断状态（true）
 
+  ​	进行`interrupt`操作后不会强制终止正在运行的线程，`interrupt`相当于一个请求，被打断线程的标记为true，可以根据这个标记发现自己需要被打断，然后自行决定终止，是一种优雅的方式。
+  
   ```java
   public static void main(String[] args) throws Exception {
       Thread t2 = new Thread(()->{
@@ -552,9 +632,9 @@ public class Test {
 
 ------
 
-##### 打断 park
+##### 打断 park 
 
-park 作用类似 sleep，打断 park 线程，不会清空打断状态（true）
+是`LockSupport`类中的方法。park 作用类似 sleep，打断 park 线程，不会清空打断状态（true）
 
 ```java
 public static void main(String[] args) throws Exception {
@@ -593,12 +673,12 @@ LockSupport 类在 同步 → park-un 详解
 
 错误思想：
 
-- 使用线程对象的 stop() 方法停止线程：stop 方法会真正杀死线程，如果这时线程锁住了共享资源，当它被杀死后就再也没有机会释放锁，其它线程将永远无法获取锁
-- 使用 System.exit(int) 方法停止线程：目的仅是停止一个线程，但这种做法会让整个程序都停止
+- 使用线程对象的 stop() 方法停止线程：stop 方法会真正杀死线程，如果这时线程锁住了共享资源，当它被杀死后就再也没有机会释放锁，其它线程将永远无法获取锁。
+- 使用 System.exit(int) 方法停止线程：目的仅是停止一个线程，但这种做法更加暴力，会让整个程序都停止。
 
 两阶段终止模式图示：
 
-<img src="image-20221214144229379.png" alt="image-20221214144229379" style="zoom:67%;" />
+<img src="image-20221214144229379.png" alt="两阶段终止模式" style="zoom:67%;" />
 
 打断线程可能在任何时间，所以需要考虑在任何时刻被打断的处理方法：
 
@@ -685,9 +765,13 @@ t.start();
 
   废弃原因：方法粗暴，除非可能执行 finally 代码块以及释放 synchronized 外，线程将直接被终止，如果线程持有 JUC 的互斥锁可能导致锁来不及释放，造成其他线程永远等待的局面
 
+  代替：两阶段终止
+
 - `public final void suspend()`：**挂起（暂停）线程运行**
 
   废弃原因：如果目标线程在暂停时对系统资源持有锁，则在目标线程恢复之前没有线程可以访问该资源，如果**恢复目标线程的线程**在调用 resume 之前会尝试访问此共享资源，则会导致死锁
+
+  代替：`wait()`
 
 - `public final void resume()`：恢复线程运行
 
