@@ -905,7 +905,7 @@ inject:
   head:
     # - <link rel="stylesheet" href="/xxx.css">
   bottom:
-    - <div class="aplayer no-destroy" data-id="8876984612" data-server="tencent" data-mini="true" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1" data-preload="none"> </div>
+    - <div class="aplayer no-destroy" data-id="8876984612" data-server="tencent" data-mini="true" data-type="playlist" data-fixed="true" data-autoplay="true" data-lrcType="-1" data-preload="auto"> </div>
       # - <script src="xxxx"></script>
 
 # CDN
