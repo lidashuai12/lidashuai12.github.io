@@ -342,7 +342,7 @@ Java：
 
 ​	进程的状态参考操作系统：创建态、就绪态、运行态、阻塞态、终止态
 
-![操作系统层面](JUC/image-20230426112651565.png)
+![操作系统层面](image-20230426112651565.png)
 
 **Java API层面的六种线程状态：**
 
@@ -992,14 +992,197 @@ public static void main(String[] args) {
 * Hashtable
 * java.util.concurrent 包下的类
 
-这里说它们是线程安全的是指，多个线程协调调用它们同一实例的某个方法时，是线程安全的。也可以理解为：
+​		这里说它们是线程安全的是指，多个线程协调调用它们同一实例的某个方法时，是线程安全的。也可以理解为：
 
 * 它们的每个方法是原子的
-* 但注意它们多个方法的组合不是原子的
+
+* 但注意它们**多个方法的组合不是原子的**
+
+  看下面的例子，理解多个方法组合不是原子的：只有`put()`和`get()`方法本身是原子的。但是两个线程中判断和赋值不是原子操作，就会导致重复写操作（类似超卖问题）
+
+  ![线程安全类的方法是原子的，但组合不是原子的](image-20230426153354564.png)
+
+
+
+
 
 **不可变类线程安全性**
 
-String、Integer等都是不可变类，因为其内部的状态不可以改变，因此它们的方法都是线程安全的
+​	String、Integer等都是不可变类，因为其内部的状态不可以改变，因此它们的方法都是线程安全的。
+
+​	String有`replace()`和`subString()`方法，本质返回的是新的字符串对象，并没有改变原本的对象，所以是线程安全的。
+
+#### 变量的线程安全分析
+
+##### 成员变量和静态变量是否线程安全？
+
+- 如果它们没有被共享，则线程安全
+- 如果它们被共享了，根据它们的状态否都能够改变，又分两种情况
+  - 如果只有读操作，则线程安全
+  - 如果有读写操作，则这段代码是临界区，需要考虑线程安全
+
+##### 局部变量是否线程安全？
+
+- 局部变量是线程安全的
+- 但局部变量引用的对象未必
+  - 如果该对象没有逃离方法的作用范围，它是线程安全的
+  - 如果该对象逃离方法的作用范围，需要考虑线程安全
+
+##### 线程安全分析
+
+**下面来看成员变量的线程安全分析：**
+
+```java
+public class TestThreadSafe {
+
+    static final int THREAD_NUMBER = 2;
+    static final int LOOP_NUMBER = 200;
+    public static void main(String[] args) {
+        //ThreadSafeSubClass test = new ThreadSafeSubClass();
+        ThreadUnsafe test = new ThreadUnsafe();
+        for (int i = 0; i < THREAD_NUMBER; i++) {
+            new Thread(() -> {
+                test.method1(LOOP_NUMBER);
+            }, "Thread" + (i+1)).start();
+        }
+    }
+}
+class ThreadUnsafe {
+    ArrayList<String> list = new ArrayList<>();
+    public void method1(int loopNumber) {
+        for (int i = 0; i < loopNumber; i++) {
+            //{临界区，会产生竞态条件
+            method2();
+            method3();
+            //}
+        }
+    }
+
+    private void method2() {
+        list.add("1");
+    }
+
+    private void method3() {
+        list.remove(0);
+    }
+}
+```
+
+​	这段代码运行时有概率出现下标越界的异常。
+
+![成员变量引用的线程安全分析](image-20230426143549694.png)
+
+
+
+
+
+
+
+​	`Thread0`和`Thread1`即使有各自的栈，但都对同一个list进行写操作，这个list是同一个对象的成员变量，这样就产生了一个共享问题。多个线程对一个共享资源的访问造成了线程安全问题。
+
+
+
+**如果把成员变量换成局部变量呢？**
+
+```java
+public class TestThreadSafe {
+
+    static final int THREAD_NUMBER = 2;
+    static final int LOOP_NUMBER = 200;
+    public static void main(String[] args) {
+        //ThreadSafeSubClass test = new ThreadSafeSubClass();
+        //ThreadUnsafe test = new ThreadUnsafe();
+        ThreadSafe test = new ThreadSafe();
+        for (int i = 0; i < THREAD_NUMBER; i++) {
+            new Thread(() -> {
+                test.method1(LOOP_NUMBER);
+            }, "Thread" + (i+1)).start();
+        }
+    }
+}
+class ThreadSafe {
+    public final void method1(int loopNumber) {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < loopNumber; i++) {
+            method2(list);
+            method3(list);
+        }
+    }
+
+    private void method2(ArrayList<String> list) {
+        list.add("1");
+    }
+
+    private void method3(ArrayList<String> list) {
+        //System.out.println(1);
+        list.remove(0);
+    }
+}
+```
+
+​		这样就没有线程安全问题，**每次线程调用都会创建新的list实例，不会共享**
+
+![局部变量的线程安全分析](image-20230426144616221.png)
+
+
+
+**上面的情况是局部变量的引用没有暴露给外面，线程是安全的。下面的是暴露给外面：**
+
+​		方法访问修饰符带来的思考：如果把`method2()`和`method(3)`的方法修改为`public`会不会带来线程安全问题？
+
+- 情况1：有其他线程调用`method2()`和`method3()`。这种情况不会发生线程安全问题，因为即使多个线程并发调用这些方法，这些方法都属于各个线程的栈帧中，不存在共享问题。
+- 情况2：在情况1的基础上，为`ThreadSafe`类添加子类，子类覆盖`method2()`或`method(3)`方法。<span style="color:red">**这种情况就会产生线程安全问题，因为子类中开启了新的线程，同样对list进行操作，使得局部变量的引用暴露给了其他线程，与父线程产生了资源共享。**</span>
+
+```java
+public class TestThreadSafe {
+
+    static final int THREAD_NUMBER = 2;
+    static final int LOOP_NUMBER = 200;
+    public static void main(String[] args) {
+        //创建子类的实例对象，此时只覆盖了method3();method3()获取的是method1()的局部变量list的引用
+        ThreadSafeSubClass test = new ThreadSafeSubClass();
+        for (int i = 0; i < THREAD_NUMBER; i++) {
+            new Thread(() -> {
+                test.method1(LOOP_NUMBER);
+            }, "Thread" + (i+1)).start();
+        }
+    }
+}
+class ThreadSafe {
+    public final void method1(int loopNumber) {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < loopNumber; i++) {
+            method2(list);
+            method3(list);
+        }
+    }
+
+    public void method2(ArrayList<String> list) {
+        list.add("1");
+    }
+
+    public void method3(ArrayList<String> list) {
+        //System.out.println(1);
+        list.remove(0);
+    }
+}
+class ThreadSafeSubClass extends ThreadSafe{
+    @Override
+    public void method3(ArrayList<String> list) {
+        System.out.println(2);
+        //子类中开启了新的线程，同样对list进行操作，与父线程产生了资源共享
+        new Thread(() -> {
+            list.remove(0);
+        }).start();
+    }
+}
+```
+
+​		这给我们了一些启示：方法的修饰符还是有意义的，private的修饰符能够保证方法不被子类覆盖，避免了局部变量暴露的风险。一定程度上保护了线程安全		
+
+​		成员变量和静态变量是保存在堆中，堆是共享的。而局部变量是保存在栈中，每个线程的栈是不共享的。
+
+
 
 ------
 
@@ -1017,15 +1200,15 @@ Monitor 被翻译为监视器或管程
 
 * 普通对象
 
-  ![image-20221215152931044](image-20221215152931044.png)
+  ![普通对象](image-20221215152931044.png)
 
 - 数组对象
 
-  ![image-20221215153001246](image-20221215153001246.png)
+  ![数组对象](image-20221215153001246.png)
 
 - Mark Word 结构：最后两位是**锁标志位**
 
-  ![image-20221215153346176](image-20221215153346176.png)
+  ![Mark Word 结构](image-20221215153346176.png)
 
 Monitor结构如下
 

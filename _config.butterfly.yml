@@ -905,8 +905,9 @@ inject:
   head:
     # - <link rel="stylesheet" href="/xxx.css">
   bottom:
+    - <script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/title.js"></script>
     - <div class="aplayer no-destroy" data-id="8876984612" data-server="tencent" data-mini="true" data-type="playlist" data-fixed="true" data-autoplay="true" lrcType="1" data-preload="auto"> </div>
-      # - <script src="xxxx"></script>
+    # - <script src="xxxx"></script>
 
 # CDN
 # Don't modify the following settings unless you know how they work
