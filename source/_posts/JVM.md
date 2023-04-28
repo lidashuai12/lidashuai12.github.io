@@ -24,14 +24,14 @@ Java 代码执行流程：`Java 程序 --（编译）--> 字节码文件 --（�
 
 JVM 结构：
 
-<img src="JVM/JVM-概述图.png" style="zoom: 80%;" />
+<img src="JVM-概述图.png" style="zoom: 80%;" />
 
 JVM、JRE、JDK 对比：
 
 * JDK(Java SE Development Kit)：Java 标准开发包，提供了编译、运行 Java 程序所需的各种工具和资源
 * JRE( Java Runtime Environment)：Java 运行环境，用于解释执行 Java 的字节码文件
 
-<img src="JVM/JVM-JRE关系.png" style="zoom: 80%;" />
+<img src="JVM-JRE关系.png" style="zoom: 80%;" />
 
 
 
@@ -111,11 +111,11 @@ JVM 的生命周期分为三个阶段，分别为：启动、运行、死亡
 JVM 内存结构规定了 Java 在运行过程中内存申请、分配、管理的策略，保证了 JVM 的高效稳定运行
 
 * Java1.8 以前的内存结构图：
-  ![](JVM/JVM-Java7内存结构图.png)
+  ![](JVM-Java7内存结构图.png)
 
 * Java1.8 之后的内存结果图：
 
-  ![](JVM/JVM-Java8内存结构图.png)
+  ![](JVM-Java8内存结构图.png)
 
 线程运行诊断：
 
@@ -158,7 +158,7 @@ Java 虚拟机栈：Java Virtual Machine Stacks，**每个线程**运行时所�
   * 方法返回地址：方法正常退出或者异常退出的定义
   * 操作数栈或表达式栈和其他一些附加信息
 
-  <img src="JVM/JVM-虚拟机栈.png" style="zoom:50%;" />
+  <img src="JVM-虚拟机栈.png" style="zoom:50%;" />
 
 设置栈内存大小：`-Xss size`   `-Xss 1024k`
 
@@ -234,13 +234,13 @@ Java 虚拟机栈：Java Virtual Machine Stacks，**每个线程**运行时所�
 
 * 为了支持当前方法的代码能够实现动态链接，每一个栈帧内部都包含一个指向运行时常量池或该栈帧所属方法的引用
 
-  ![](JVM/JVM-动态链接符号引用.png)
+  ![](JVM-动态链接符号引用.png)
 
 * 在 Java 源文件被编译成的字节码文件中，所有的变量和方法引用都作为符号引用保存在 class 的常量池中
 
   常量池的作用：提供一些符号和常量，便于指令的识别
 
-  ![](JVM/JVM-动态链接运行时常量池.png)
+  ![](JVM-动态链接运行时常量池.png)
 
 
 
@@ -295,7 +295,7 @@ JNI：Java Native Interface，通过使用 Java 本地接口程序，可以确�
 * dlopen 函数：Linux 系统加载和链接共享库
 * dlclose 函数：卸载共享库
 
-<img src="JVM/JVM-本地方法栈.png" style="zoom:67%;" />
+<img src="JVM-本地方法栈.png" style="zoom:67%;" />
 
 
 
@@ -312,6 +312,8 @@ JNI：Java Native Interface，通过使用 Java 本地接口程序，可以确�
 Program Counter Register 程序计数器（寄存器）
 
 作用：内部保存字节码的行号，用于记录正在执行的字节码指令地址（如果正在执行的是本地方法则为空）
+
+![程序计数器](image-20230426183625282.png)
 
 原理：
 
@@ -434,7 +436,7 @@ public static void main(String[] args) {
 
 本地内存概述图：
 
-<img src="JVM/JVM-内存图对比.png" style="zoom: 67%;" />
+<img src="JVM-内存图对比.png" style="zoom: 67%;" />
 
 
 
@@ -588,7 +590,7 @@ TLAB：Thread Local Allocation Buffer，为每个线程在堆内单独分配了�
 
 问题：堆空间都是共享的么？ 不一定，因为还有 TLAB，在堆中划分出一块区域，为每个线程所独占
 
-![](JVM/JVM-TLAB内存分配策略.jpg)
+![](JVM-TLAB内存分配策略.jpg)
 
 JVM 是将 TLAB 作为内存分配的首选，但不是所有的对象实例都能够在 TLAB 中成功分配内存，一旦对象在 TLAB 空间分配内存失败时，JVM 就会通过**使用加锁机制确保数据操作的原子性**，从而直接在堆中分配内存
 
@@ -601,7 +603,7 @@ JVM 是将 TLAB 作为内存分配的首选，但不是所有的对象实例都�
 * `-XX:TLABWasteTargetPercent`：设置 TLAB 空间所占用 Eden 空间的百分比大小，默认情况下 TLAB 空间的内存非常小，仅占有整个 Eden 空间的1%
 * `-XX:TLABRefillWasteFraction`：指当 TLAB 空间不足，请求分配的对象内存大小超过此阈值时不会进行 TLAB 分配，直接进行堆内存分配，否则还是会优先进行 TLAB 分配
 
-![](JVM/JVM-TLAB内存分配过程.jpg)
+![](JVM-TLAB内存分配过程.jpg)
 
 
 
@@ -705,7 +707,7 @@ Java8 时，堆被分为了两份：新生代和老年代（1:2），在 Java7 �
 
  Eden 和 Survivor 大小比例默认为 8:1:1
 
-<img src="JVM/JVM-分代收集算法.png" style="zoom: 67%;" />
+<img src="JVM-分代收集算法.png" style="zoom: 67%;" />
 
 
 
@@ -890,7 +892,7 @@ public void localvarGC4() {
   }
   ```
 
-![](JVM/JVM-循环引用.png)
+![](JVM-循环引用.png)
 
 
 
@@ -935,7 +937,7 @@ GC Roots 对象：
 
 - 在可达性分析算法中，只有能够被根对象集合直接或者间接连接的对象才是存活对象
 
-  <img src="JVM/JVM-可达性分析算法.png" style="zoom: 50%;" />
+  <img src="JVM-可达性分析算法.png" style="zoom: 50%;" />
 
 
 
@@ -963,7 +965,7 @@ GC Roots 对象：
 4. 重复步骤 3，直至灰色集合为空时结束
 5. 结束后，仍在白色集合的对象即为 GC Roots 不可达，可以进行回收
 
-<img src="JVM/JVM-三色标记法过程.gif" style="zoom: 67%;" />
+<img src="JVM-三色标记法过程.gif" style="zoom: 67%;" />
 
 
 
@@ -984,7 +986,7 @@ GC Roots 对象：
 * 针对并发标记开始后的**新对象**，通常的做法是直接全部当成黑色，也算浮动垃圾
 * 浮动垃圾并不会影响应用程序的正确性，只是需要等到下一轮垃圾回收中才被清除
 
-<img src="JVM/JVM-三色标记法多标情况.png" style="zoom: 50%;" />
+<img src="JVM-三色标记法多标情况.png" style="zoom: 50%;" />
 
 **漏标情况：**
 
@@ -992,7 +994,7 @@ GC Roots 对象：
 * 条件二：其他线程中修改了黑色对象，插入了一条或多条对该白色对象的新引用
 * 结果：导致该白色对象当作垃圾被 GC，影响到了程序的正确性
 
-<img src="JVM/JVM-三色标记法漏标情况.png" style="zoom:50%;" />
+<img src="JVM-三色标记法漏标情况.png" style="zoom:50%;" />
 
 代码角度解释漏标：
 
@@ -1170,7 +1172,7 @@ Java 语言提供了对象终止（finalization）机制来允许开发人员提
 
 应用场景：如果内存中的垃圾对象较多，需要复制的对象就较少，这种情况下适合使用该方式并且效率比较高，反之则不适合
 
-![](JVM/JVM-复制算法.png)
+![](JVM-复制算法.png)
 
 算法优点：
 
@@ -1204,7 +1206,7 @@ Java 语言提供了对象终止（finalization）机制来允许开发人员提
 - 标记和清除过程效率都不高
 - 会产生大量不连续的内存碎片，导致无法给大对象分配内存，需要维护一个空闲链表
 
-<img src="JVM/JVM-标记清除算法.png" style="zoom: 67%;" />
+<img src="JVM-标记清除算法.png" style="zoom: 67%;" />
 
 
 
@@ -1222,7 +1224,7 @@ Java 语言提供了对象终止（finalization）机制来允许开发人员提
 
 缺点：需要移动大量对象，处理效率比较低
 
-<img src="JVM/JVM-标记整理算法.png" style="zoom:67%;" />
+<img src="JVM-标记整理算法.png" style="zoom:67%;" />
 
 |          | Mark-Sweep         | Mark-Compact     | Copying                                 |
 | -------- | ------------------ | ---------------- | --------------------------------------- |
@@ -1265,7 +1267,7 @@ GC 性能指标：
 
 **垃圾收集器的组合关系**：
 
-![](JVM/JVM-垃圾回收器关系图.png)
+![](JVM-垃圾回收器关系图.png)
 
 新生代收集器：Serial、ParNew、Parallel Scavenge
 
@@ -1302,7 +1304,7 @@ Serial：串行垃圾收集器，作用于新生代，是指使用单线程进�
 
 开启参数：`-XX:+UseSerialGC` 等价于新生代用 Serial GC 且老年代用 Serial old GC
 
-![](JVM/JVM-Serial收集器.png)
+![](JVM-Serial收集器.png)
 
 优点：简单而高效（与其他收集器的单线程比），对于限定单个 CPU 的环境来说，Serial 收集器由于没有线程交互的开销，可以获得最高的单线程收集效率
 
@@ -1328,7 +1330,7 @@ Par 是 Parallel 并行的缩写，New 是只能处理的是新生代
 
 * `-XX:ParallelGCThreads`：默认开启和 CPU 数量相同的线程数
 
-![](JVM/JVM-ParNew收集器.png)
+![](JVM-ParNew收集器.png)
 
 ParNew 是很多 JVM 运行在 Server 模式下新生代的默认垃圾收集器
 
@@ -1362,7 +1364,7 @@ Parallel Old 收集器：是一个应用于老年代的并行垃圾回收器，*
 
 在注重吞吐量及 CPU 资源敏感的场合，都可以优先考虑 Parallel Scavenge + Parallel Old 收集器，在 Server 模式下的内存回收性能很好，**Java8 默认是此垃圾收集器组合**
 
-![](JVM/JVM-ParallelScavenge收集器.png)
+![](JVM-ParallelScavenge收集器.png)
 
 参数配置：
 
@@ -1405,7 +1407,7 @@ Mark Sweep 会造成内存碎片，不把算法换成 Mark Compact 的原因：M
 
 在整个过程中耗时最长的并发标记和并发清除过程中，收集器线程都可以与用户线程一起工作，不需要进行停顿
 
-![](JVM/JVM-CMS收集器.png)
+![](JVM-CMS收集器.png)
 
 优点：并发收集、低延迟
 
@@ -1466,7 +1468,7 @@ G1 对比其他处理器的优点：
 
   * Region 结构图：
 
-![](JVM/JVM-G1-Region区域.png)
+![](JVM-G1-Region区域.png)
 
 - 空间整合：
 
@@ -1500,7 +1502,7 @@ G1 垃圾收集器的缺点：
 
 记忆集 Remembered Set 在新生代中，每个 Region 都有一个 Remembered Set，用来被哪些其他 Region 里的对象引用（谁引用了我就记录谁）
 
-<img src="JVM/JUC-G1记忆集.png" style="zoom:67%;" />
+<img src="JUC-G1记忆集.png" style="zoom:67%;" />
 
 * 程序对 Reference 类型数据写操作时，产生一个 Write Barrier 暂时中断操作，检查该对象和 Reference 类型数据是否在不同的 Region（跨代引用），不同就将相关引用信息记录到 Reference 类型所属的 Region 的 Remembered Set 之中
 * 进行内存回收时，在 GC 根节点的枚举范围中加入 Remembered Set 即可保证不对全堆扫描也不会有遗漏
@@ -1531,7 +1533,7 @@ G1 中提供了三种垃圾回收模式：YoungGC、Mixed GC 和 Full GC，在�
 * 当堆内存使用达到一定值（默认 45%）时，开始老年代并发标记过程
 * 标记完成马上开始混合回收过程
 
-<img src="JVM/JVM-G1回收过程.png" style="zoom: 50%;" />
+<img src="JVM-G1回收过程.png" style="zoom: 50%;" />
 
 顺时针：Young GC → Young GC + Concurrent Mark → Mixed GC 顺序，进行垃圾回收
 
@@ -1554,7 +1556,7 @@ G1 中提供了三种垃圾回收模式：YoungGC、Mixed GC 和 Full GC，在�
   * 最终标记：为了修正在并发标记期间因用户程序继续运作而导致标记产生变动的那一部分标记记录，虚拟机将这段时间对象变化记录在线程的 Remembered Set Logs 里面，最终标记阶段需要把 Remembered Set Logs 的数据合并到 Remembered Set 中，这阶段需要停顿线程，但是可并行执行（**防止漏标**）
   * 筛选回收：并发清理阶段，首先对 CSet 中各个 Region 中的回收价值和成本进行排序，根据用户所期望的 GC 停顿时间来制定回收计划，也需要 STW
 
-  ![](JVM/JVM-G1收集器.jpg)
+  ![](JVM-G1收集器.jpg)
 
 * **Mixed GC**：当很多对象晋升到老年代时，为了避免堆内存被耗尽，虚拟机会触发一个混合的垃圾收集器，即 Mixed GC，除了回收整个 young region，还会回收一部分的 old region，过程同 YGC
 
@@ -1671,7 +1673,7 @@ Serial GC、Parallel GC、Concurrent Mark Sweep GC 这三个 GC  不同：
 - 最大化应用程序的吞吐量，选 Parallel GC
 - 最小化 GC 的中断或停顿时间，选 CMS GC
 
-![](JVM/JVM-垃圾回收器总结.png)
+![](JVM-垃圾回收器总结.png)
 
 
 
@@ -1945,7 +1947,7 @@ private int hash32;
 
 下图显示了一个简单的对象引用关系图，对象 A 引用了 C 和 D，对象 B 引用了 C 和 E。那么对象 A 的浅堆大小只是 A 本身，**A 的实际大小为 A、C、D 三者之和**，A 的深堆大小为 A 与 D 之和，由于对象 C 还可以通过对象 B 访问到 C，因此 C 不在对象 A 的深堆范围内
 
-<img src="JVM/JVM-对象的实际大小.png" style="zoom: 67%;" />
+<img src="JVM-对象的实际大小.png" style="zoom: 67%;" />
 
 内存分析工具 MAT 提供了一种叫支配树的对象图，体现了对象实例间的支配关系
 
@@ -1959,13 +1961,13 @@ private int hash32;
 
 左图表示对象引用图，右图表示左图所对应的支配树：
 
-![](JVM/JVM-支配树.png)
+![](JVM-支配树.png)
 
 比如：对象 F 与对象 D 相互引用，因为到对象 F 的所有路径必然经过对象 D，因此对象 D 是对象 F 的直接支配者
 
 
 
-参考文章：https://www.yuque.com/u21195183/jvm/nkq31c
+参考文章：https://www.yuque.com/u21195183/nkq31c
 
 
 
@@ -2006,7 +2008,7 @@ JVM 是通过**栈帧中的对象引用**访问到其内部的对象实例：
 
   优点：reference 中存储的是稳定的句柄地址，在对象被移动（垃圾收集）时只会改变句柄中的实例数据指针，而 reference 本身不需要被修改
 
-  ![](JVM/JVM-对象访问-句柄访问.png)
+  ![](JVM-对象访问-句柄访问.png)
 
 * 直接指针（HotSpot 采用）：Java 堆对象的布局必须考虑如何放置访问类型数据的相关信息，reference 中直接存储的对象地址
 
@@ -2014,7 +2016,7 @@ JVM 是通过**栈帧中的对象引用**访问到其内部的对象实例：
 
   缺点：对象被移动时（如进行 GC 后的内存重新排列），对象的 reference 也需要同步更新
 
-  ![](JVM/JVM-对象访问-直接指针.png)
+  ![](JVM-对象访问-直接指针.png)
 
 
 
@@ -2206,7 +2208,7 @@ Java 对象创建时机：
 
 类是在运行期间**第一次使用时动态加载**的（不使用不加载），而不是一次性加载所有类，因为一次性加载会占用很多的内存，加载的类信息存放于一块成为方法区的内存空间
 
-![](JVM/JVM-类的生命周期.png)
+![](JVM-类的生命周期.png)
 
 包括 7 个阶段：
 
@@ -2250,7 +2252,7 @@ Java 对象创建时机：
 * 加载和链接可能是交替运行的
 * Class 对象和 _java_mirror 相互持有对方的地址，堆中对象通过 instanceKlass 和元空间进行交互
 
-<img src="JVM/JVM-类的生命周期-加载.png" style="zoom:80%;" />
+<img src="JVM-类的生命周期-加载.png" style="zoom:80%;" />
 
 创建数组类有些特殊，因为数组类本身并不是由类加载器负责创建，而是由 JVM 在运行时根据需要而直接创建的，但数组的元素类型仍然需要依靠类加载器去创建，创建数组类的过程：
 
@@ -2669,7 +2671,7 @@ ClassLoader 类常用方法：
 
 双亲委派机制的缺点：检查类是否加载的委托过程是单向的，这个方式虽然从结构上看比较清晰，使各个 ClassLoader 的职责非常明确，但**顶层的 ClassLoader 无法访问底层的 ClassLoader 所加载的类**（可见性）
 
-<img src="JVM/JVM-双亲委派模型.png" style="zoom: 50%;" />
+<img src="JVM-双亲委派模型.png" style="zoom: 50%;" />
 
 
 
@@ -2765,7 +2767,7 @@ protected Class<?> loadClass(String name, boolean resolve)
 
   热替换是指在程序的运行过程中，不停止服务，只通过替换程序文件来修改程序的行为，**热替换的关键需求在于服务不能中断**，修改必须立即表现正在运行的系统之中
 
-<img src="JVM/JVM-热替换.png" style="zoom: 33%;" />
+<img src="JVM-热替换.png" style="zoom: 33%;" />
 
 
 
@@ -2784,7 +2786,7 @@ protected Class<?> loadClass(String name, boolean resolve)
 * JDK1.2：改进了安全机制，增加了代码签名，不论本地代码或是远程代码都会按照用户的安全策略设定，由类加载器加载到虚拟机中权限不同的运行空间，来实现差异化的代码执行权限控制
 * JDK1.6：当前最新的安全机制，引入了域（Domain）的概念。虚拟机会把所有代码加载到不同的系统域和应用域，不同的保护域对应不一样的权限。系统域部分专门负责与关键资源进行交互，而各个应用域部分则通过系统域的部分代理来对各种需要的资源进行访问
 
-<img src="JVM/JVM-沙箱机制.png" style="zoom:67%;" />
+<img src="JVM-沙箱机制.png" style="zoom:67%;" />
 
 
 
@@ -2902,7 +2904,7 @@ public static void main(String[] args) {
 
 Java 文件编译执行的过程：
 
-![](JVM/JVM-Java文件编译执行的过程.png)
+![](JVM-Java文件编译执行的过程.png)
 
 - 类加载器：用于装载字节码文件（.class文件）
 - 运行时数据区：用于分配存储空间
@@ -2977,7 +2979,7 @@ Java 语言：跨平台的语言（write once ，run anywhere）
 * 字节码为了实现特定软件运行和软件环境，与硬件环境无关
 * 通过编译器和虚拟机器实现，编译器将源码编译成字节码，虚拟机器将字节码转译为可以直接执行的指令
 
-<img src="JVM/JVM-高级语言执行过程.png" style="zoom:50%;" />
+<img src="JVM-高级语言执行过程.png" style="zoom:50%;" />
 
 
 
@@ -3082,7 +3084,7 @@ Class 文件格式采用一种类似于 C 语言结构体的方式进行数据�
 | 54               | 0                | 1.10       |
 | 55               | 0                | 1.11       |
 
-![](JVM/JVM-类结构.png)
+![](JVM-类结构.png)
 
 
 
@@ -3583,7 +3585,7 @@ public class Demo {
 * 创建类实例指令：new，接收一个操作数指向常量池的索引，表示要创建的类型，执行完成后将对象的引用压入栈
 
   ```java
-  0:  new             #2 // class com/jvm/bytecode/Demo
+  0:  new             #2 // class com/bytecode/Demo
   3:  dup
   4:  invokespecial   #3 // Method "<init>":()V
   ```
@@ -3890,7 +3892,7 @@ finally 中的代码被**复制了 3 份**，分别放入 try 流程，catch 流
 * montiorenter：进入并获取对象监视器，即为栈顶对象加锁
 * monitorexit：释放并退出对象监视器，即为栈顶对象解锁
 
-<img src="JVM/JVM-字节码指令同步控制.png" style="zoom: 33%;" />
+<img src="JVM-字节码指令同步控制.png" style="zoom: 33%;" />
 
 
 
@@ -3934,12 +3936,12 @@ javap -v Demo.class：省略
 
   `istore_1`：将操作数栈顶数据弹出，存入局部变量表的 slot 1
 
-  ![](JVM/JVM-字节码执行流程1.png)
+  ![](JVM-字节码执行流程1.png)
 
   `ldc #3`：从常量池加载 #3 数据到操作数栈
   Short.MAX_VALUE 是 32767，所以 32768 = Short.MAX_VALUE + 1 实际是在编译期间计算完成
 
-  ![](JVM/JVM-字节码执行流程2.png)
+  ![](JVM-字节码执行流程2.png)
 
   `istore_2`：将操作数栈顶数据弹出，存入局部变量表的 slot 2
 
@@ -3949,17 +3951,17 @@ javap -v Demo.class：省略
 
   `iadd`：执行相加操作
 
-  ![](JVM/JVM-字节码执行流程3.png)
+  ![](JVM-字节码执行流程3.png)
 
   `istore_3`：将操作数栈顶数据弹出，存入局部变量表的 slot 3
 
   `getstatic #4`：获取静态字段
 
-  ![](JVM/JVM-字节码执行流程4.png)
+  ![](JVM-字节码执行流程4.png)
 
   `iload_3`：
 
-  ![](JVM/JVM-字节码执行流程5.png)
+  ![](JVM-字节码执行流程5.png)
 
   `invokevirtual #5`：
 
@@ -3970,7 +3972,7 @@ javap -v Demo.class：省略
   * 执行完毕，弹出栈帧
   * 清除 main 操作数栈内容
 
-  ![](JVM/JVM-字节码执行流程6.png)
+  ![](JVM-字节码执行流程6.png)
 
   return：完成 main 方法调用，弹出 main 栈帧，程序结束
 
@@ -4019,7 +4021,7 @@ HotSpot VM 可以通过 VM 参数设置程序执行方式：
 - -Xcomp：完全采用即时编译器模式执行程序。如果即时编译出现问题，解释器会介入执行
 - -Xmixed：采用解释器 + 即时编译器的混合模式共同执行程序
 
-![](JVM/JVM-执行引擎工作流程.png)
+![](JVM-执行引擎工作流程.png)
 
 
 
@@ -4277,7 +4279,7 @@ public class Demo {
 几种不同的方法调用对应的字节码指令：
 
 ```java
-0:  new             #2 // class cn/jvm/t3/bytecode/Demo
+0:  new             #2 // class cn/t3/bytecode/Demo
 3:  dup
 4:  invokespecial   #3 // Method "<init>":()V
 7:  astore_1
@@ -4357,7 +4359,7 @@ Java 虚拟机中关于方法重写的判定基于方法描述符，如果子类
 * 其一，子类方法表中包含父类方法表中的**所有方法**，并且在方法表中的索引值与父类方法表种的索引值相同
 * 其二，**非重写的方法指向父类的方法表项，与父类共享一个方法表项，重写的方法指向本身自己的实现**，这就是为什么多态情况下可以访问父类的方法。
 
-<img src="JVM/JVM-虚方法表.png" style="zoom: 80%;" />
+<img src="JVM-虚方法表.png" style="zoom: 80%;" />
 
 Passenger 类的方法表包括两个方法，分别对应 0 号和 1 号。方法表调换了 toString 方法和 passThroughImmigration 方法的位置，是因为 toString 方法的索引值需要与 Object 类中同名方法的索引值一致，为了保持简洁，这里不考虑 Object 类中的其他方法。
 
@@ -4392,7 +4394,7 @@ class Girl extends Person {
 }
 ```
 
-![](JVM/JVM-虚方法表指向.png)
+![](JVM-虚方法表指向.png)
 
 
 
@@ -5356,7 +5358,7 @@ jstatd 是一个 RMI 服务端程序，相当于代理服务器，建立本地�
 
 远程主机信息收集，前面的指令只涉及到监控本机的 Java 应用程序，而在这些工具中，一些监控工具也支持对远程计算机的监控（如 jps、jstat），为了启用远程监控，则需要配合使用 jstatd 工具。
 
-![](JVM/JVM-jstatd图解.png)
+![](JVM-jstatd图解.png)
 
 
 
@@ -5374,7 +5376,7 @@ jstatd 是一个 RMI 服务端程序，相当于代理服务器，建立本地�
 
 视频链接：https://www.bilibili.com/video/BV1PJ411n7xZ?p=304
 
-文章链接：https://www.yuque.com/u21195183/jvm/lv1zot
+文章链接：https://www.yuque.com/u21195183/lv1zot
 
 
 
@@ -5703,5 +5705,5 @@ GCViewer 是一款离线的 GC 日志分析器，用于可视化 Java VM 选项 
 
 
 
-参考文章：https://www.yuque.com/u21195183/jvm/ukmb3k
+参考文章：https://www.yuque.com/u21195183/ukmb3k
 
