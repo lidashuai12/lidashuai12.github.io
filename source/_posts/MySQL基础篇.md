@@ -899,7 +899,7 @@ WHERE d.`department_name` IN ('Sales', 'IT');
 
 EXTRACT(type FROM date)函数中type的取值与含义：
 
-![image-20220601162705975](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220601162705975.png)
+![type的取值与含义](image-20220601162705975.png)
 
 ### 5) 时间和秒钟转换的函数
 
@@ -917,7 +917,7 @@ EXTRACT(type FROM date)函数中type的取值与含义：
 
 上述函数中type的取值：
 
-![image-20220601165055639](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220601165055639.png)
+![type的取值](image-20220601165055639.png)
 
 | 函数                         | 用法                                                         |
 | ---------------------------- | ------------------------------------------------------------ |
@@ -1231,7 +1231,7 @@ SELECT 是先执行 FROM 这一步的。在这个阶段，如果是多张表联�
 
 + 子查询的基本语法结构：
 
-![image-20220603133759153](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220603133759153.png)
+![子查询的基本语法结构](image-20220603133759153.png)
 
 + 子查询（内查询）在主查询之前一次执行完成。
 + 子查询的结果被主查询（外查询）使用 。
@@ -1248,11 +1248,11 @@ SELECT 是先执行 FROM 这一步的。在这个阶段，如果是多张表联�
 
 + 单行子查询
 
-![image-20220603135507360](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220603135507360.png)
+![单行子查询](image-20220603135507360.png)
 
 + 多行子查询
 
-![image-20220603135544144](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220603135544144.png)
+![多行子查询](image-20220603135544144.png)
 
 **分类方式2：**
 
@@ -1449,9 +1449,9 @@ WHERE employee_id NOT IN (
 
 相关子查询按照一行接一行的顺序执行，主查询的每一行都执行一次子查询。
 
-![image-20220603154919387](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220603154919387.png)
+![](image-20220603154919387.png)
 
-![image-20220603155013864](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220603155013864.png)
+![image-20220603155013864](image-20220603155013864.png)
 
 > 说明：子查询中使用主查询中的列
 
@@ -3355,7 +3355,7 @@ MySQL支持多种存储引擎，每一个表都可以指定一个不同的存储
 * 视图是一种 虚拟表 ，本身是 不具有数据 的，占用很少的内存空间，它是 SQL 中的一个重要概念。 
 * 视图建立在已有表的基础上, 视图赖以建立的这些表称为基表。
 
-![image-20220608173721188](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220608173721188.png)
+![image-20220608173721188](image-20220608173721188.png)
 
 * 视图的创建和删除只影响视图本身，不影响对应的基表。但是当对视图中的数据进行增加、删除和 修改操作时，数据表中的数据会相应地发生变化，反之亦然。
 * 视图提供数据内容的语句为 SELECT 语句, 可以将视图理解为存储起来的 SELECT 语句 
@@ -4053,7 +4053,7 @@ DROP {PROCEDURE | FUNCTION} [IF EXISTS] 存储过程或函数的名
 
 每一个MySQL客户机成功连接MySQL服务器后，都会产生与之对应的会话。会话期间，MySQL服务实例会在MySQL服务器内存中生成与该会话对应的会话系统变量，这些会话系统变量的初始值是全局系统变量值的复制。如下图：
 
-<img src="D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220613135809104.png" alt="image-20220613135809104" style="zoom:80%;" />
+<img src="image-20220613135809104.png" alt="image-20220613135809104" style="zoom:80%;" />
 
 * 全局系统变量针对于所有会话（连接）有效，但 不能跨重启
 * 会话系统变量仅针对于当前会话（连接）有效。会话期间，当前会话对某个会话系统变量值的修改，不会影响其他会话同一个会话系统变量的值。 
@@ -5123,7 +5123,7 @@ MySQL从5.7版本直接跳跃发布了8.0版本 ，可见这是一个令人兴�
 
 12. 窗口函数 MySQL 8开始支持窗口函数。在之前的版本中已存在的大部分 聚合函数 在MySQL 8中也可以 作为窗口函数来使用。
 
-![image-20220613202507072](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220613202507072.png)
+![image-20220613202507072](image-20220613202507072.png)
 
 13. 正则表达式支持 MySQL在8.0.4以后的版本中采用支持Unicode的国际化组件库实现正则表达式操作， 这种方式不仅能提供完全的Unicode支持，而且是多字节安全编码。MySQL增加了REGEXP_LIKE()、 EGEXP_INSTR()、REGEXP_REPLACE()和 REGEXP_SUBSTR()等函数来提升性能。另外，regexp_stack_limit和 regexp_time_limit 系统变量能够通过匹配引擎来控制资源消耗。
 14. 内部临时表 TempTable存储引擎取代MEMORY存储引擎成为内部临时表的默认存储引擎 。TempTable存储 引擎为VARCHAR和VARBINARY列提供高效存储。internal_tmp_mem_storage_engine会话变量定义了内部 临时表的存储引擎，可选的值有两个，TempTable和MEMORY，其中TempTable为默认的存储引擎。 temptable_max_ram系统配置项定义了TempTable存储引擎可使用的最大内存数量。
@@ -5287,7 +5287,7 @@ MySQL官方网站窗口函数的网址为https://dev.mysql.com/doc/refman/8.0/en
 
 窗口函数总体上可以分为序号函数、分布函数、前后函数、首尾函数和其他函数，如下表：
 
-![image-20220613210116486](D:/Personal/StudyNotes-main/MySQL基础篇/MySQL基础篇.assets/image-20220613210116486.png)
+![image-20220613210116486](image-20220613210116486.png)
 
 ### 3) 语法结构
 
