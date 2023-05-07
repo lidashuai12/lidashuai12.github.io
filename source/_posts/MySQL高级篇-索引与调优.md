@@ -940,21 +940,21 @@ show variables like 'innodb_file_per_table'
 
 **InnoDB数据字典**
 
-<img src="image-20220621150648770.png" alt="image-20220621150648770" style="float:left;" />
+<img src="image-20220621150648770.png" style="float:left;" />
 
 删除这些数据并不是我们使用 INSERT 语句插入的用户数据，实际上是为了更好的管理我们这些用户数据而不得以引入的一些额外数据，这些数据页称为 元数据。InnoDB 存储引擎特意定义了一些列的 内部系统表 (internal system table) 来记录这些元数据：
 
-<img src="image-20220621150924922.png" alt="image-20220621150924922" style="float:left;" />
+<img src="image-20220621150924922.png" style="float:left;" />
 
 这些系统表也称为 `数据字典`，它们都是以 B+ 树的形式保存在系统表空间的某个页面中。其中 `SYS_TABLES、SYS_COLUMNS、SYS_INDEXES、SYS_FIELDS` 这四个表尤其重要，称之为基本系统表 (basic system tables) ，我们先看看这4个表的结构：
 
-<img src="image-20220621151139759.png" alt="image-20220621151139759" style="float:left;" />
+<img src="image-20220621151139759.png" style="float:left;" />
 
-<img src="image-20220621151158361.png" alt="image-20220621151158361" style="float:left;" />
+<img src="image-20220621151158361.png" style="float:left;" />
 
-<img src="image-20220621151215274.png" alt="image-20220621151215274" style="float:left;" />
+<img src="image-20220621151215274.png" style="float:left;" />
 
-<img src="image-20220621151238157.png" alt="image-20220621151238157" style="float:left;" />
+<img src="image-20220621151238157.png" style="float:left;" />
 
 注意：用户不能直接访问 InnoDB 的这些内部系统表，除非你直接去解析系统表空间对应文件系统上的文件。不过考虑到查看这些表的内容可能有助于大家分析问题，所以在系统数据库 `information_schema` 中提供了一些以 `innodb_sys` 开头的表:
 
@@ -1008,31 +1008,31 @@ MySQL的索引包括普通索引、唯一性索引、全文索引、单列索引
 
 **1. 普通索引**
 
-<img src="image-20220621202759576.png" alt="image-20220621202759576" style="float:left;" />
+<img src="image-20220621202759576.png" style="float:left;" />
 
 **2. 唯一性索引**
 
-<img src="image-20220621202850551.png" alt="image-20220621202850551" style="float:left;" />
+<img src="image-20220621202850551.png" style="float:left;" />
 
 **3. 主键索引**
 
-<img src="image-20220621203302303.png" alt="image-20220621203302303" style="float:left;" />
+<img src="image-20220621203302303.png" style="float:left;" />
 
 **4. 单列索引**
 
-<img src="image-20220621203333925.png" alt="image-20220621203333925" style="float:left;" />
+<img src="image-20220621203333925.png" style="float:left;" />
 
 **5. 多列 (组合、联合) 索引**
 
-<img src="image-20220621203454424.png" alt="image-20220621203454424" style="float:left;" />
+<img src="image-20220621203454424.png" style="float:left;" />
 
 **6. 全文检索**
 
-<img src="image-20220621203645789.png" alt="image-20220621203645789" style="float:left;" />
+<img src="image-20220621203645789.png" style="float:left;" />
 
 **7. 补充：空间索引**
 
-<img src="image-20220621203736098.png" alt="image-20220621203736098" style="float:left;" />
+<img src="image-20220621203736098.png" style="float:left;" />
 
 **小结：不同的存储引擎支持的索引类型也不一样 **
 
@@ -1329,13 +1329,13 @@ CREATE TABLE ts1(a int,b int,index idx_a_b(a,b desc));
 
 在MySQL 5.7版本中查看数据表ts1的结构，结果如下:
 
-![image-20220622224124267](image-20220622224124267.png)
+![](image-20220622224124267.png)
 
 从结果可以看出，索引仍然是默认的升序
 
 在MySQL 8.0版本中查看数据表ts1的结构，结果如下：
 
-![image-20220622224205048](image-20220622224205048.png)
+![](image-20220622224205048.png)
 
 从结果可以看出，索引已经是降序了。下面继续测试降序索引在执行计划中的表现。
 
@@ -1371,9 +1371,9 @@ EXPLAIN SELECT * FROM ts1 ORDER BY a, b DESC LIMIT 5;
 
 ### 2.2 隐藏索引
 
-在MySQL 5.7版本及之前，只能通过显式的方式删除索引。此时，如果发展删除索引后出现错误，又只能通过显式创建索引的方式将删除的索引创建回来。如果数据表中的数据量非常大，或者数据表本身比较 大，这种操作就会消耗系统过多的资源，操作成本非常高。
+在MySQL 5.7版本及之前，只能通过显式的方式删除索引。此时，如果发现删除索引后出现错误，又只能通过显式创建索引的方式将删除的索引创建回来。如果数据表中的数据量非常大，或者数据表本身比较 大，这种操作就会消耗系统过多的资源，操作成本非常高。
 
-从MySQL 8.x开始支持 隐藏索引（invisible indexes） ，只需要将待删除的索引设置为隐藏索引，使 查询优化器不再使用这个索引（即使使用force index（强制使用索引），优化器也不会使用该索引）， 确认将索引设置为隐藏索引后系统不受任何响应，就可以彻底删除索引。 这种通过先将索引设置为隐藏索 引，再删除索引的方式就是软删除。
+从MySQL 8.x开始支持 隐藏索引（invisible indexes） ，只需要将待删除的索引设置为隐藏索引，使 查询优化器不再使用这个索引（即使使用force index（强制使用索引），优化器也不会使用该索引）， 确认将索引设置为隐藏索引后系统不受任何响应，就可以彻底删除索引。 这种通过先将索引设置为隐藏索引，再删除索引的方式就是软删除。
 
 同时，如果你想验证某个索引删除之后的 `查询性能影响`，就可以暂时先隐藏该索引。
 
@@ -1654,7 +1654,7 @@ CALL insert_stu(1000000);
 
 #### 1. 字段的数值有唯一性的限制
 
-<img src="image-20220623154615702.png" alt="image-20220623154615702" style="float:left;" />
+<img src="image-20220623154615702.png" style="float:left;" />
 
 > 业务上具有唯一特性的字段，即使是组合字段，也必须建成唯一索引。（来源：Alibaba） 说明：不要以为唯一索引影响了 insert 速度，这个速度损耗可以忽略，但提高查找速度是明显的。
 
@@ -1700,7 +1700,7 @@ SELECT DISTINCT(student_id) FROM `student_info`;
 
 其次， `对 WHERE 条件创建索引` ，因为 WHERE 才是对数据条件的过滤。如果在数据量非常大的情况下， 没有 WHERE 条件过滤是非常可怕的。 
 
-最后， `对用于连接的字段创建索引` ，并且该字段在多张表中的 类型必须一致 。比如 course_id 在 student_info 表和 course 表中都为 int(11) 类型，而不能一个为 int 另一个为 varchar 类型。
+最后， `对用于连接的字段创建索引` ，并且该字段在多张表中的 类型必须一致 。比如 course_id 在 student_info 表和 course 表中都为 int(11) 类型，而不能一个为 int 另一个为 varchar 类型。因为如果数据类型不一致，就会自动进行隐式的数据类型转换，这会导致索引失效。
 
 举个例子，如果我们只对 student_id 创建索引，执行 SQL 语句：
 
@@ -1717,11 +1717,11 @@ WHERE name = '462eed7ac6e791292a79';
 
 #### 7. 使用列的类型小的创建索引
 
-<img src="image-20220623175306282.png" alt="image-20220623175306282" style="float:left;" />
+<img src="image-20220623175306282.png" style="float:left;" />
 
 #### 8. 使用字符串前缀创建索引
 
-<img src="image-20220623175513439.png" alt="image-20220623175513439" style="float:left;" />
+<img src="image-20220623175513439.png" style="float:left;" />
 
 创建一张商户表，因为地址字段比较长，在地址字段上建立前缀索引
 
@@ -1786,13 +1786,13 @@ LIMIT 12;
 
 #### 10. 使用最频繁的列放到联合索引的左侧
 
-这样也可以较少的建立一些索引。同时，由于"最左前缀原则"，可以增加联合索引的使用率。
+这样也可以较少的建立一些索引。同时，由于`"最左前缀原则"`，可以增加联合索引的使用率。
 
 #### 11. 在多个字段都要创建索引的情况下，联合索引优于单值索引
 
 ### 3.3 限制索引的数目
 
-<img src="image-20220627151947786.png" alt="image-20220627151947786" style="float:left;" />
+<img src="image-20220627151947786.png" style="float:left;" />
 
 ### 3.4 哪些情况不适合创建索引
 
@@ -4081,7 +4081,7 @@ CALL proc_drop_index("dbname","tablename");
 
 ## 2. 索引失效案例
 
-<img src="image-20220704202453482.png" alt="image-20220704202453482" style="float:left;" />
+<img src="image-20220704202453482.png" style="float:left;" />
 
 ### 2.1 全值匹配我最爱
 
@@ -4115,7 +4115,7 @@ mysql> SELECT SQL_NO_CACHE * FROM student WHERE age=30 AND classId=4 AND name = 
 Empty set, 1 warning (0.01 sec)
 ```
 
-<img src="image-20220704204140589.png" alt="image-20220704204140589" style="float:left;" />
+<img src="image-20220704204140589.png" style="float:left;" />
 
 ### 2.2 最佳左前缀法则
 
@@ -4145,7 +4145,7 @@ EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE student.classId=4 AND student.a
 mysql> EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE student.age=30 AND student.name = 'abcd';
 ```
 
-![image-20220704211116351](image-20220704211116351.png)
+![](image-20220704211116351.png)
 
 虽然可以正常使用，但是只有部分被使用到了。
 
@@ -4153,7 +4153,7 @@ mysql> EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE student.age=30 AND stude
 mysql> EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE student.classId=1 AND student.name = 'abcd';
 ```
 
-![image-20220704211254581](image-20220704211254581.png)
+![](image-20220704211254581.png)
 
 完全没有使用上索引。
 
