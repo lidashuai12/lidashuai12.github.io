@@ -2,7 +2,7 @@
 title: SpringBoot原理篇
 date: 2023-04-24 15:35:36
 categories: 后端学习笔记
-tags: SpringBoot
+tags: Spring
 description: |
     **_SpringBoot原理_**
 ---
